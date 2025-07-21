@@ -1,0 +1,186 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FilmLane - Watch History</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="shortcut icon" href="{% static 'images/logo_pic.png' %}" type="image/x-icon" />
+
+  <!-- Custom & Bootstrap CSS -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+
+  <style>
+    body {
+      background-color: #000;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+    }
+
+
+    .card {
+      background-color: #111;
+      border: none;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 4px 20px rgba(229, 9, 20, 0.3);
+    }
+
+    .card-title {
+      color: #e50914;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .genre-tag {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #e50914;
+      padding: 3px 10px;
+      border-radius: 5px;
+      font-size: 0.75rem;
+      color: #fff;
+      font-weight: 500;
+    }
+
+    .btn-watch {
+      background-color: #e50914;
+      border: none;
+      color: white;
+      font-weight: 500;
+    }
+
+    .btn-watch:hover {
+      background-color: #c30713;
+    }
+
+
+    .alert-box {
+      background: #fff;
+      color: black;
+      font-weight: bold;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .alert-box a {
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Membership Alert -->
+  <!-- {% if user.is_authenticated %}
+    {% if is_expired %}
+      <div class="alert-box">
+        Your membership has expired{% if membership and membership.end_date %} on {{ membership.end_date|date:"d M Y, H:i" }}{% endif %}.
+        <a href="/membership">Click here to renew</a>
+      </div>
+    {% else %}
+      <div class="alert-box" style="color: red;">
+        Membership active until {{ membership.end_date|date:"d M Y, H:i" }}.
+        {% if days_left %}
+          You have {{ days_left }} day{{ days_left|pluralize }} left.
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endif %} -->
+
+  <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+          <a href="/mainpage"><img src="{% static 'images/logo_pic.png' %}" alt="" width="60px" /><img src="{% static 'images/logo1.svg' %}" alt="" width="250px" /></a>
+        </div>
+        <ul class="nav-list">
+          <div class="logo">
+          
+            <button class="close"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <li class="home"><a href="/mainpage">home</a></li>
+          <!-- <li><a href="#scrollspyHeading1">movie</a></li> -->
+          <li><a href="#">
+            <i class="bi bi-person-circle"></i>
+                  {% if user.is_authenticated %}
+                  <strong style="text-decoration: underline;">Welcome &nbsp;&nbsp;{{user}}</strong>
+                  {% endif %}
+
+          </a></li>
+          <li><a href="/wishlist">wishlist</a></li>
+          <div class="logo">
+          <a href="/mainpage">
+            <img src="{% static 'images/logo_pic.png' %}" alt="" width="60px" />
+            <img src="{% static 'images/logo1.svg' %}" alt="" width="250px" />
+          </a>
+          </div>
+          <li><a href="{% url 'watch_history' %}">History</a></li>
+
+          <form class="search-form" method="GET" action="{% url 'search_movies' %}" background: #e50914; color: white; >
+          <input
+            type="text"
+            name="q"
+            class="search-input"
+            placeholder="Search movies..."
+            style="padding: 8px; border-radius: 5px; border: 1px solid #ccc;"
+            value="{{ request.GET.q|default:'' }}"
+          />
+          
+        </form>
+
+          <a href="/"><button class="btn">Log Out</button></a>
+          
+        </ul>
+        <div class="hamburger">
+          <div class="line"></div>
+          <div class="line"></div>
+        </div>
+      </nav>
+
+  <!-- Watch History Section -->
+  <div class="container py-5">
+    <h2 class="text-center header-title">Your Watch History</h2>
+    <hr style="border-color: #e50914;" />
+
+    {% if watch_history %}
+      <div class="row g-4">
+        {% for item in watch_history %}
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="card h-100 shadow-sm">
+              <div class="position-relative">
+                <img src="{{ item.movie.image.url }}" class="card-img-top" style="height: 220px; object-fit: cover;" alt="{{ item.movie.title }}">
+                <!-- <div class="genre-tag">{{ item.movie.genre|default:"" }}</div> -->
+              </div>
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title">{{ item.movie.title }}</h5>
+                <p class="text-white mb-2" style="font-size: 0.85rem;">Watched on {{ item.watched_on|date:"d M Y, H:i" }}</p>
+                <a href="{% url 'video' item.movie.movieid %}" class="btn btn-watch mt-auto w-100">
+                  <i class="fa-solid fa-play"></i> Watch Again
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-center mt-5 text-white-50">You haven't watched any movies yet. Start watching to see your history here.</p>
+    {% endif %}
+  </div>
+
+  <!-- Scripts -->
+  <script src="{% static 'js/script.js' %}"></script>
+  <script src="{% static 'js/navbar.js' %}"></script>
+</body>
+</html>

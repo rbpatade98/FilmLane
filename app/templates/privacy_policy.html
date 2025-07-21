@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FilmLane - Movie Streaming Website</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!--- google font link-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Fontawesome Link for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+    />
+
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo_pic.png' %}" />
+  </head>
+  <body>
+    <!-- navbar starts -->
+    <header id="navbar">
+      <nav class="navbar">
+        <div class="logo">
+          <a href="/"><img src="{% static 'images/logo_pic.png' %}" alt="" width="60px" /><img src="{% static 'images/logo1.svg' %}" alt="" width="250px" /></a>
+        </div>
+        <ul class="nav-list">
+          <div class="logo">
+          
+            <button class="close"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <li class="home"><a href="/signin/">home</a></li>
+          <li><a href="/signin/">movie</a></li>
+          <li><a href="/signin/">Anime</a></li>
+          <!-- <li><a href="signin/">pricing</a></li> -->
+          <a href="/signin/"><button class="btn">SIGN IN</button></a>
+          
+        </ul>
+        <div class="hamburger">
+          <div class="line"></div>
+          <div class="line"></div>
+        </div>
+      </nav>
+    </header>
+
+<section class="same" style="padding: 50px 10%;">
+  <h2 style="font-size: 2rem; margin-bottom: 2rem; color: red;">Privacy Policy</h2>
+
+  <h4>1. Data We Collect</h4>
+  <p>We collect your name, email address, device information, and watch history to provide personalized recommendations.</p>
+
+  <h4>2. Use of Information</h4>
+  <p>Your data is used for authentication, improving content suggestions, and technical support.</p>
+
+  <h4>3. Cookies</h4>
+  <p>Cookies help us remember your preferences and improve site performance. You can disable them in your browser settings.</p>
+
+  <h4>4. Data Sharing</h4>
+  <p>We do not sell personal data. We may share anonymized data with analytics providers to improve services.</p>
+
+  <h4>5. Your Rights</h4>
+  <p>You may request access to your data, ask for correction, or request account deletion by contacting us.</p>
+
+  <h4>6. Contact</h4>
+  <p>Email: <strong>privacy@filmlane.com</strong><br>Effective Date: June 1, 2025</p>
+</section>
+   <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/navbar.js' %}"></script>
+  </body>
+</html>

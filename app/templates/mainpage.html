@@ -1,0 +1,515 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FilmLane - Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!--- google font link-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Fontawesome Link for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+    />
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo_pic.png' %}" />
+  </head>
+  <body>
+    <!-- navbar starts -->
+
+     {% if user.is_authenticated %}
+  {% if is_expired %}
+    <div style="background-color: #ffffff; color: rgb(0, 0, 0); padding: 10px; text-align: center; font-weight: bold;">
+      Your membership has expired{% if membership and membership.end_date %} on {{ membership.end_date|date:"d M Y, H:i" }}{% endif %}.
+      <a href="/membership" style="color: red;">Click here to renew</a>
+    </div>
+  {% else %}
+    <div style="background-color: #ffffff; color: red; padding: 10px; text-align: center; font-weight: bold;">
+      Membership active until {{ membership.end_date|date:"d M Y, H:i" }}.
+      {% if days_left %}
+        You have {{ days_left }} day{{ days_left|pluralize }} left.
+      {% endif %}
+    </div>
+  {% endif %}
+{% endif %}
+      <!-- serverTime -->
+    <!-- <p style="color:rgb(0, 0, 0);">Server Time: {{ current_time|date:"d M Y, H:i:s" }}</p> -->
+     <!-- greeting  -->
+      <!-- <h3 style="color: rgb(7, 0, 0);">{{ greeting }}, {{ user.first_name|default:user.username }}!</h3> -->
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <a href="/mainpage"><img src="{% static 'images/logo_pic.png' %}" alt="" width="60px" /><img src="{% static 'images/logo1.svg' %}" alt="" width="250px" /></a>
+        </div>
+        <ul class="nav-list">
+          <div class="logo">
+          
+            <button class="close"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <li class="home"><a href="/mainpage">home</a></li>
+          <!-- <li><a href="#scrollspyHeading1">movie</a></li> -->
+          <li><a href="#">
+            <i class="bi bi-person-circle"></i>
+                  {% if user.is_authenticated %}
+                  <strong style="text-decoration: underline;">Welcome &nbsp;&nbsp;{{user}}</strong>
+                  {% endif %}
+
+          </a></li>
+          <li><a href="/wishlist">wishlist</a></li>
+          <div class="logo">
+          <a href="/mainpage">
+            <img src="{% static 'images/logo_pic.png' %}" alt="" width="60px" />
+            <img src="{% static 'images/logo1.svg' %}" alt="" width="250px" />
+          </a>
+          </div>
+          <li><a href="{% url 'watch_history' %}">History</a></li>
+
+          <form class="search-form" method="GET" action="{% url 'search_movies' %}" background: #e50914; color: white; >
+          <input
+            type="text"
+            name="q"
+            class="search-input"
+            placeholder="Search movies..."
+            style="padding: 8px; border-radius: 5px; border: 1px solid #ccc;"
+            value="{{ request.GET.q|default:'' }}"
+          />
+          
+        </form>
+
+          <a href="/"><button class="btn">Log Out</button></a>
+          
+        </ul>
+        <div class="hamburger">
+          <div class="line"></div>
+          <div class="line"></div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- hero section starts  -->
+    <section class="hero">
+      <div class="main">
+        <div class="content">
+          <p>FilmLane</p>
+          <h1>Unlimited <strong>Movie</strong>, TVs Shows, & More.</h1>
+          <div class="meta-wrapper">
+            <div class="badge">
+              <span>PG 18</span>
+              <span>HD</span>
+            </div>
+            <div class="genre">
+              <span><a href="#">Actions,</a> <a href="#">Adeventures..</a></span>
+            </div>
+            <div class="date-time">
+              <span><i class="fa-solid fa-calendar-days"></i> Full HD</span>
+              <span><i class="fa-regular fa-clock"></i>4K</span>
+            </div>
+          </div>
+          <div class="watch-btn">
+            <a href="#cards">
+            <a href="#scrollspyHeading1"><button><i class="fa-solid fa-play"></i> Watch Now</button></a>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- upcoming  section starts  -->
+    <section class="upcoming-movie" id="scrollspyHeading1">
+      <div class="header">
+        <div class="subtitle">
+          <small>online Streaming</small>
+          <h4>Stream Now</h4>
+        </div>
+        <div class="buttons">
+          <!-- <a href="/hollywood"><button>Movies</button></a> -->
+          
+          <a href="{% url 'category' 'Anime' %}"><button>Anime</button></a>
+          <a href="{% url 'category' 'Action' %}"><button>Action</button></a>
+          <a href="{% url 'category' 'Comedy' %}"><button>Comedy</button></a>
+          <a href="{% url 'category' 'Horror' %}"><button>Horror</button></a>
+          <a href="{% url 'category' 'Scifi' %}"><button>Sci-Fi</button></a>
+
+  
+
+
+
+          
+          
+        </div>
+      </div>
+      <div class="movie-card">
+        <div class="wrapper">
+          <ul class="movie-carousel" >
+            {% if allmovie %}
+              {% for x in allmovie %}
+                  <li class="card">
+                      
+                          <div class="img">
+                              <a href="/moviedetails/{{ x.movieid }}"><img src="{{ x.image.url }}" alt="{{ x.title }}" /></a>
+                          </div>
+                          <div class="title">
+                              <a href="/video/{{ x.movieid }}"><h4>{{ x.title }}</h4></a>
+                              <span ><a href="/addtofav/{{x.movieid}}" ><i class="bi bi-heart-fill" style="margin-left: 5px;"></i></a></span>  <!-- Consider adding a release_date field to your model -->
+                          </div>
+                          <div class="footer">
+                              <span>HD</span>
+                              <div class="time-rating">
+                                  <span><i class="fa-regular fa-clock"></i> {{ x.duration }}</span>  <!-- Consider adding a duration field -->
+                                  <span><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> {{ x.rating }}</span>  <!-- Consider adding a rating field -->
+                              </div>
+                          </div>
+                      
+                  </li>
+              {% endfor %}
+            {% else %}
+                <p style="color: rgb(243, 237, 237);">No movies found in this category.</p>
+            {% endif %}
+          </ul>
+        <!-- </div> -->
+      </div>
+      </div>
+    </section>
+
+    <!-- service section starts -->
+    <section class="service">
+      <div class="main">
+        <div class="img">
+          <img src="{% static 'images/service-banner-red.png' %}" alt="" />
+        </div>
+        <div class="content">
+          <small>our services</small>
+          <h4>Watch Your All Shows in HD </h4>
+          <p>
+            Lorem ipsum dolor sit amet, consecetur adipiscing elseddo eiusmod
+            tempor.There are many variations of passages of lorem Ipsum
+            available, but the majority have suffered alteration in some
+            injected humour.
+          </p>
+          <ul class="list">
+            <li>
+              <div class="service-card">
+                <div class="img">
+                  <div class="icon">
+                    <i class="fa-solid fa-tv"></i>
+                  </div>
+                </div>
+                <div class="service-content">
+                  <h5>Enjoy on Your Mobile</h5>
+                  <p>
+                    Lorem ipsum dolor sit amet, consecetur adipiscing elit, sed
+                    do eiusmod tempor.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr />
+            <li>
+              <div class="service-card">
+                <div class="img">
+                  <div class="icon">
+                    <i class="fa-solid fa-video"></i>
+                  </div>
+                </div>
+                <div class="service-content">
+                  <h5>Watch Everywhere</h5>
+                  <p>
+                    Lorem ipsum dolor sit amet, consecetur adipiscing elit, sed
+                    do eiusmod tempor.
+                  </p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- top movie section start  -->
+    <section class="top-movie same">
+      <div class="header">
+        <small>online streaming</small>
+        <h4>Top Rated Movies</h4>
+      </div>
+      <div class="top-movie-main">
+        <div class="buttons">
+          <button>movies</button>
+          <button>Actions</button>
+          <button>Anime</button>
+          
+        </div>
+
+        
+        <div class="movie-card">
+          <ul class="wrapper">
+            <li class="card">
+              <div class="img">
+                <a href="#scrollspyHeading1"><img src="{% static 'images/movie/m-1.jpg' %}" alt="" /></a>
+              </div>
+              <div class="title">
+                <a href="#scrollspyHeading1"><h4>The Accountant 2</h4></a>
+                <span>2025</span>
+              </div>
+              <div class="footer">
+                <span>HD</span>
+                <div class="time-rating">
+                  <span><i class="fa-regular fa-clock"></i> 122 min</span>
+                  <span><i class="fa-solid fa-star"></i> 7.8</span>
+                </div>
+              </div>
+            </li>
+            <li class="card">
+              <div class="img">
+                <a href="#scrollspyHeading1"><img src="{% static 'images/movie/m-2.jpg' %}" alt="" /></a>
+              </div>
+              <div class="title">
+                <a href="#scrollspyHeading1"><h4>Havoc</h4></a>
+                <span>2025</span>
+              </div>
+              <div class="footer">
+                <span>HD</span>
+                <div class="time-rating">
+                  <span><i class="fa-regular fa-clock"></i> 104 min</span>
+                  <span><i class="fa-solid fa-star"></i> 5.9</span>
+                </div>
+              </div>
+            </li>
+            <li class="card">
+              <div class="img">
+                <a href="#scrollspyHeading1"><img src="{% static 'images/movie/m-3.jpg' %}" alt="" /></a>
+              </div>
+              <div class="title">
+                <a href="#scrollspyHeading1"><h4>Warfare</h4></a>
+                <span>2025</span>
+              </div>
+              <div class="footer">
+                <span>HD</span>
+                <div class="time-rating">
+                  <span><i class="fa-regular fa-clock"></i> 115 min</span>
+                  <span><i class="fa-solid fa-star"></i> 7.7</span>
+                </div>
+              </div>
+            </li>
+            <li class="card">
+              <div class="img">
+                <a href="#scrollspyHeading1"><img src="{% static 'images/movie/m-4.jpg' %}" alt="" /></a>
+              </div>
+              <div class="title">
+                <a href="#scrollspyHeading1"><h4>The Electric State</h4></a>
+                <span>2025</span>
+              </div>
+              <div class="footer">
+                <span>HD</span>
+                <div class="time-rating">
+                  <span><i class="fa-regular fa-clock"></i> 176 min</span>
+                  <span><i class="fa-solid fa-star"></i> 7.9</span>
+                </div>
+              </div>
+            </li>
+            <li class="card">
+              <div class="img">
+                <a href="#scrollspyHeading1"><img src="{% static 'images/movie/m-5.jpg' %}" alt="" /></a>
+              </div>
+              <div class="title">
+                <a href="#scrollspyHeading1"><h4>A Minecraft Movie</h4></a>
+                <span>2025</span>
+              </div>
+              <div class="footer">
+                <span>HD</span>
+                <div class="time-rating">
+                  <span><i class="fa-regular fa-clock"></i> 116 min</span>
+                  <span><i class="fa-solid fa-star"></i> 7.0</span>
+                </div>
+              </div>
+            </li>
+            <li class="card">
+              <div class="img">
+                <a href="#scrollspyHeading1"><img src="{% static 'images/movie/m-6.jpg' %}" alt="" /></a>
+              </div>
+              <div class="title">
+                <a href="#scrollspyHeading1"><h4>Mickey 17</h4></a>
+                <span>2025</span>
+              </div>
+              <div class="footer">
+                <span>HD</span>
+                <div class="time-rating">
+                  <span><i class="fa-regular fa-clock"></i> 127 min</span>
+                  <span><i class="fa-solid fa-star"></i> 6.5</span>
+                </div>
+              </div>
+            </li>
+            <li class="card">
+              <div class="img">
+                <a href="#scrollspyHeading1"><img src="{% static 'images/movie/m-7.jpg' %}" alt="" /></a>
+              </div>
+              <div class="title">
+                <a href="#scrollspyHeading1"><h4>One of Them Days</h4></a>
+                <span>2025</span>
+              </div>
+              <div class="footer">
+                <span>HD</span>
+                <div class="time-rating">
+                  <span><i class="fa-regular fa-clock"></i> 131 min</span>
+                  <span><i class="fa-solid fa-star"></i> 7.0</span>
+                </div>
+              </div>
+            </li>
+            <li class="card">
+              <div class="img">
+                <a href="#scrollspyHeading1"><img src="{% static 'images/movie/m-8.jpg' %}" alt="" /></a>
+              </div>
+              <div class="title">
+                <a href="#scrollspyHeading1"><h4>Alexander...</h4></a>
+                <span>2025</span>
+              </div>
+              <div class="footer">
+                <span>HD</span>
+                <div class="time-rating">
+                  <span><i class="fa-regular fa-clock"></i> 131 min</span>
+                  <span><i class="fa-solid fa-star"></i> 7.0</span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- tvs series section starts  -->
+    <section class="tv-series same">
+      <div class="header">
+        <small>best Anime Show</small>
+        <h4>World Anime Movies</h4>
+      </div>
+      <div class="movie-card">
+        <ul class="wrapper">
+          <li class="card">
+            <div class="img">
+              <a href="#scrollspyHeading1"><img src="{% static 'images/movie/a-1.jpg' %}" alt="" /></a>
+            </div>
+            <div class="title">
+              <a href="#scrollspyHeading1"><h4>Attack on Titan</h4></a>
+              <span>2013</span>
+            </div>
+            <div class="footer">
+              <span>HD</span>
+              <div class="time-rating">
+                <span><i class="fa-regular fa-clock"></i> 47 min</span>
+                <span><i class="fa-solid fa-star"></i> 8.6</span>
+              </div>
+            </div>
+          </li>
+          <li class="card">
+            <div class="img">
+              <a href="#scrollspyHeading1"><img src="{% static 'images/movie/a-2.jpg' %}" alt="" /></a>
+            </div>
+            <div class="title">
+              <a href="#scrollspyHeading1"><h4>Vinland Saga</h4></a>
+              <span>2023</span>
+            </div>
+            <div class="footer">
+              <span>HD</span>
+              <div class="time-rating">
+                <span><i class="fa-regular fa-clock"></i> 59 min</span>
+                <span><i class="fa-solid fa-star"></i> 8.8</span>
+              </div>
+            </div>
+          </li>
+          <li class="card">
+            <div class="img">
+              <a href="#scrollspyHeading1"><img src="{% static 'images/movie/a-3.jpg' %}" alt="" /></a>
+            </div>
+            <div class="title">
+              <a href="#scrollspyHeading1"><h4>Naruto: Shippuden</h4></a>
+              <span>2007</span>
+            </div>
+            <div class="footer">
+              <span>HD</span>
+              <div class="time-rating">
+                <span><i class="fa-regular fa-clock"></i> 51 min</span>
+                <span><i class="fa-solid fa-star"></i> 8.3</span>
+              </div>
+            </div>
+          </li>
+          <li class="card">
+            <div class="img">
+              <a href="#scrollspyHeading1"><img src="{% static 'images/movie/a-4.jpg' %}" alt="" /></a>
+            </div>
+            <div class="title">
+              <a href="#scrollspyHeading1"><h4>My Hero Academia</h4></a>
+              <span>2016</span>
+            </div>
+            <div class="footer">
+              <span>4K</span>
+              <div class="time-rating">
+                <span><i class="fa-regular fa-clock"></i> 70 min</span>
+                <span><i class="fa-solid fa-star"></i> 8.3</span>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+   
+
+    <!-- footer section start -->
+    <footer>
+      <div class="main">
+        <div class="footer-top">
+          <nav>
+            <div class="logo">
+              <a href="{% url 'mainpage' %}"><img src="{% static 'images/logo1.svg' %}" alt="" width="250px" /></a>
+            </div>
+            <ul class="list">
+              <li><a href="">home</a></li>
+              <li><a href="">movie</a></li>
+              <li><a href="">Anime</a></li>
+              
+            </ul>
+          </nav>
+          <br>
+          <div class="links">
+            <div class="text-links">
+              <a href="{% url 'faq' %}">FAQ</a>
+              <a href="{% url 'help_center' %}">Help Center</a>
+              <a href="{% url 'terms_of_use' %}">Terms of Use</a>
+              <a href="{% url 'privacy_policy' %}">Privacy Policy</a>
+            </div>
+            <div class="social-links">
+              <a href="https://www.facebook.com" target=""><i class="fa-brands fa-facebook"></i></a>
+              <a href="https://github.com" target=""><i class="fa-brands fa-github"></i></a>
+              <a href="www.linkedin.com/in" target=""><i class="fa-brands fa-linkedin"></i></a>
+              <a href="https://www.instagram.com" target=""><i class="fa-brands fa-instagram"></i></a>
+            </div>
+          </div>
+          {% comment %} <hr> {% endcomment %}
+          
+        </div>
+        <div class="footer-bottom">
+          <div class="copyright">
+            <p>&#169; 2024 <a href="">rampatade</a>. All Rights Reserved</p>
+          </div>
+          <div class="img">
+            <img src="{% static 'images/footer-bottom-img.png' %}" alt="">
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <button class="back-to-top"><i class="fa-solid fa-chevron-up"></i></button>
+
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/navbar.js' %}"></script>
+  </body>
+</html>

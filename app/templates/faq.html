@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FilmLane - Movie Streaming Website</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!--- google font link-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Fontawesome Link for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+    />
+
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo_pic.png' %}" />
+  </head>
+  <body>
+    <!-- navbar starts -->
+    <header id="navbar">
+      <nav class="navbar">
+        <div class="logo">
+          <a href="/"><img src="{% static 'images/logo_pic.png' %}" alt="" width="60px" /><img src="{% static 'images/logo1.svg' %}" alt="" width="250px" /></a>
+        </div>
+        <ul class="nav-list">
+          <div class="logo">
+          
+            <button class="close"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <li class="home"><a href="/signin/">home</a></li>
+          <li><a href="/signin/">movie</a></li>
+          <li><a href="/signin/">Anime</a></li>
+          <!-- <li><a href="signin/">pricing</a></li> -->
+          <a href="/signin/"><button class="btn">SIGN IN</button></a>
+          
+        </ul>
+        <div class="hamburger">
+          <div class="line"></div>
+          <div class="line"></div>
+        </div>
+      </nav>
+    </header>
+<section class="same" style="padding: 50px 10%;">
+  <h2 style="font-size: 2rem; margin-bottom: 2rem; color: red;">Frequently Asked Questions</h2>
+  
+  <div class="faq-item">
+    <h4>How can I start watching movies?</h4>
+    <p>Sign in or create an account, then click on any “Watch Now” button under the movie or series to start streaming instantly.</p>
+  </div>
+
+  <div class="faq-item">
+    <h4>Is FilmLane free to use?</h4>
+    <p>We offer a free tier with limited content access. For full access to HD and exclusive releases, a premium subscription is required.</p>
+  </div>
+
+  <div class="faq-item">
+    <h4>Can I download content for offline viewing?</h4>
+    <p>Yes, premium members can download select movies and episodes through our mobile app for offline viewing.</p>
+  </div>
+
+  <div class="faq-item">
+    <h4>What devices are supported?</h4>
+    <p>FilmLane works on all modern browsers, Android/iOS phones, tablets, and Smart TVs (including Chromecast & Firestick).</p>
+  </div>
+
+  <div class="faq-item">
+    <h4>How do I reset my password?</h4>
+    <p>Go to the sign-in page and click on "Forgot Password." A password reset link will be sent to your registered email.</p>
+  </div>
+
+  <div class="faq-item">
+    <h4>Who do I contact for billing issues?</h4>
+    <p>Email our support team at <strong>billing@filmlane.com</strong> with your registered email and transaction details.</p>
+  </div>
+</section>
+   <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/navbar.js' %}"></script>
+  </body>
+</html>

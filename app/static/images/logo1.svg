@@ -1,0 +1,10 @@
+<svg width="250" height="70" viewBox="0 0 250 70" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="black"></rect>
+  <!-- Play Button Icon -->
+  <polygon points="20,20 20,50 45,35" fill="#E50914"></polygon>
+  
+  <!-- Text -->
+  <text x="60" y="45" font-family="Segoe UI, Montserrat, sans-serif" font-size="32" font-weight="bold" fill="#E50914">
+    FilmLane
+  </text>
+</svg>

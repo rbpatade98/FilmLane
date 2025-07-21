@@ -1,0 +1,228 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Choose Membership</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+  body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url("{% static 'images/tv-series-bg1.avif' %}");
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+  }
+
+  .promos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 100px;
+  }
+
+  .promo {
+    background-color: #141414;
+    border-radius: 10px;
+    width: 300px;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .promo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+  }
+
+  .promo .deal span:first-of-type {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .price {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #e50914;
+    margin: 20px 0;
+  }
+
+  .features {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 25px;
+  }
+
+  .features li {
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    color: #ccc;
+  }
+
+  .promo button {
+    background-color: #e50914;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 25px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .promo button:hover {
+    background-color: #b20710;
+  }
+
+  header .navbar .logo {
+    padding: 20px;
+  }
+
+  header .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #000;
+    padding: 0 40px;
+  }
+
+  header .navbar img {
+    vertical-align: middle;
+  }
+</style>
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo_pic.png' %}" />
+  </head>
+  <body>
+
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <a href="/signin/"><img src="{% static 'images/logo_pic.png'%}" alt="" width="60px" /><img src="{% static 'images/logo1.svg'%}" alt="" width="250px" /></a>
+        </div>
+        
+        <div class="hamburger">
+          <div class="line"></div>
+          <div class="line"></div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="container" style="margin-top: 10%; ">
+      <div class="promos">
+        
+        {% if errmsg %}
+        <mark><h4>{{errmsg}}</h4></mark>
+        {% endif %}
+        
+        <div class="promo scale">
+          <div class="deal">
+            <span>Watch latest Movies</span>
+          </div>
+          <span class="price">₹{{amount}}</span>
+          
+          <ul class="features">
+            <li>Unlimited HD & 4K Streaming</li>
+            <li>Mobile & Smart TV Compatible</li>
+            <li>Personalized Watchlists</li>
+            <li>No Ads for Premium Users</li>
+            <li>30 Days Play on Every Subscription</li>
+          </ul>
+          <button style="background-color: #f9f9f9; color: #0f1012" id="rzp-button1">
+            Payment
+          </button>
+          
+        </div>
+        
+      </div>
+    </div>
+    
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <script>
+      var options = {
+        "key": "rzp_test_wH0ggQnd7iT3nB", // Enter the Key ID generated from the Dashboard
+        "amount": "{{data.amount}}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "FilmLane",
+        "description": "Subscription Payment",
+        "image": "https://example.com/your_logo",
+        "order_id": "{{data.id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "handler": function (response){
+          fetch("/payment-success/", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  "X-CSRFToken": "{{ csrf_token }}"
+              },
+              credentials: "same-origin",
+              body: JSON.stringify({
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_signature: response.razorpay_signature
+              })
+          })
+          .then(res => {
+              if (res.ok) {
+                  alert("Payment successful! Membership activated.");
+                  window.location.href = "/mainpage";
+              } else {
+                  alert("Payment succeeded, but something went wrong on server.");
+              }
+          })
+          .catch(error => {
+              console.error("Error sending payment data to server:", error);
+              alert("Something went wrong!");
+          });
+      },
+
+        "prefill": {
+            "name": "Gaurav Kumar",
+            "email": "gaurav.kumar@example.com",
+            "contact": "9000090000"
+        },
+        "notes": {
+            "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+            "color": "red"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response){
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+    });
+    document.getElementById('rzp-button1').onclick = function(e){
+        rzp1.open();
+        e.preventDefault();
+    }
+    </script>
+    <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+  ></script>
+  </body>
+</html>

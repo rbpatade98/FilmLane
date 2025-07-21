@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FilmLane | Watchlist </title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/movie.css' %}" >
+
+    <!--- google font link-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <!-- Fontawesome Link for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+    />
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo_pic.png' %}" />
+  </head>
+  <body>
+    <!-- navbar starts -->
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <a href="{% url 'mainpage' %}"><img src="{% static 'images/logo_pic.png' %}" alt="" width="60px" /><img src="{% static 'images/logo1.svg' %}" alt="" width="250px" /></a>
+        </div>
+        <ul class="nav-list">
+          <div class="logo">
+            <a href="{% url 'mainpage' %}"><img src="{% static 'images/logo.svg' %}" alt=""></a>
+            <button class="close"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <li class="home"><a href="{% url 'mainpage' %}">home</a></li>
+          <a href="{% url 'signin' %}"><button class="btn">LOG OUT</button></a>
+          
+        </ul>
+        <div class="hamburger">
+          <div class="line"></div>
+          <div class="line"></div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- movie-detail section start  -->
+    
+<section class="upcoming-movie">
+  <div class="header">
+    
+      <div class="wrapper">
+        <ul class="movie-carousel" >
+          {% if allwishlist %}
+            {% for x in allwishlist %}
+                <li class="card">
+                    
+                        <div class="img">
+                            <a href="/video/{{x.movieid.movieid}}"><img src="{{x.movieid.image.url}}" alt="{{ x.movieid.title }}" /></a>
+                        </div>
+                        <div class="title">
+                            <a href="/video/{{x.movieid.movieid}}"><h4>{{ x.movieid.title }}</h4></a>
+                        </div>
+                        <div class="footer">
+                            <span style="display: flex; align-items: center; justify-content: center;">{{x.movieid.category}}</span>
+                            <div class="">
+                                
+                                <a href="/removefavourite/{{x.movieid.movieid}}"><button style="border: 2px solid red;
+                                  color: red;
+                                  padding: 10px 30px;
+                                  border-radius: 30px;
+                                  font-size: 14px;
+                                  font-weight: 700;
+                                  background-color: #1d1a28;
+                                  transition: 0.3s ease-in-out;
+                                  cursor: pointer;">Remove favourite</button></a>
+
+                            </div>
+                        </div>
+                    
+                </li>
+            {% endfor %}
+          {% else %}
+              <p style="color: red; font-weight: 900;">No movies found in the Wishlist.</p>
+          {% endif %}
+        </ul>
+      <!-- </div> -->
+  
+    </div>
+  </div>
+
+</section>
+
+{% comment %} --------------------------------------------------- {% endcomment %}
+
+
+    
+
+    <!-- footer section start -->
+    <footer>
+      <div class="main">
+        <div class="footer-top">
+          <nav>
+            <div class="logo">
+              <img src="images/logo.svg" alt="" />
+            </div>
+          </nav>
+          <hr />
+          <div class="links">
+            <div class="text-links">
+              <a href="">faq</a>
+              <a href="">help center</a>
+              <a href="">terms of use</a>
+              <a href="">privacy</a>
+            </div>
+            <div class="social-links">
+              <a href="https://www.facebook.com/kamesh.pansare.9" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+              <a href="https://github.com/Kameshpansare27" target="_blank"><i class="fa-brands fa-github"></i></a>
+              <a href="www.linkedin.com/in/kamesh-pansare-728a01202" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+              <a href="https://www.instagram.com/kameshpansare27/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div class="copyright">
+            <p>&#169; 2024 <a href="">rampatade</a>. All Rights Reserved</p>
+          </div>
+          <div class="img">
+            <img src="images/footer-bottom-img.png" alt="" />
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="js/script.js"></script>
+    <script src="js/navbar.js"></script>
+
+  </body>
+</html>

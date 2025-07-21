@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Detail Page</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/movie.css' %}" >
+
+    <!--- google font link-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <!-- Fontawesome Link for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+    />
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo_pic.png' %}" />
+  </head>
+  <body>
+    <!-- navbar starts -->
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <a href="{% url 'mainpage' %}"><img src="{% static 'images/logo_pic.png' %}" alt="" width="60px" /><img src="{% static 'images/logo1.svg' %}" alt="" width="250px" /></a>
+        </div>
+        <ul class="nav-list">
+          <div class="logo">
+            <a href="{% url 'mainpage' %}"><img src="{% static 'images/logo.svg' %}" alt=""></a>
+            <button class="close"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <li class="home"><a href="{% url 'mainpage' %}">home</a></li>
+          <a href="/signin/"><button class="btn">LOG OUT</button></a>
+          
+        </ul>
+        <div class="hamburger">
+          <div class="line"></div>
+          <div class="line"></div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- movie-detail section start  -->
+    <section class="movie-detail">
+        <div class="main">
+            <div class="img">
+                <!-- <a href="/video/{{allmovie.movieid}}"><img src="{{allmovie.image.url}}" alt="{{ allmovie.title }}">
+                <i class="fa-regular fa-circle-play"></i>
+                </a> -->
+                {% if not is_expired %}
+                  <a href="/video/{{allmovie.movieid}}">
+                    <img src="{{allmovie.image.url}}" alt="{{ allmovie.title }}">
+                    <i class="fa-regular fa-circle-play"></i>
+                  </a>
+                {% else %}
+                  <div style="position: relative;">
+                    <img src="{{allmovie.image.url}}" alt="{{ allmovie.title }}" style="opacity: 0.6;">
+                    <i class="fa-regular fa-circle-play" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem; color: #ccc;" title="Renew membership to watch"></i>
+                  </div>
+                {% endif %}
+
+            </div>
+            <div class="content">
+                <strong>New Episodes</strong>
+                <h4>{{ allmovie.title }}</h4>
+                <div class="badge-genre">
+                    <div class="badge">
+                        <span>HD</span>
+                    </div>
+                </div>
+                <div class="date-time">
+                    <span><i class="fa-solid fa-calendar-days"></i> 2024</span>
+                    <span><i class="fa-regular fa-clock"></i> 115 min</span>
+                </div>
+                <p>{{ allmovie.description }}</p>
+                <div class="detail-actions">
+                 
+                  <div class="prime">
+                    <h5>Prime Video</h5>
+                    <small>Streaming Channels</small>
+                  </div>
+                  <div class="btn">
+                    <!-- <a href="/video/{{allmovie.movieid}}" style="text-decoration: none;"><button><i class="fa-solid fa-play"></i>Watch Now
+                       </button></a> -->
+                    {% if not is_expired %}
+                      <a href="/video/{{allmovie.movieid}}" style="text-decoration: none;">
+                        <button><i class="fa-solid fa-play"></i> Watch Now</button>
+                      </a>
+                    {% else %}
+                      <button disabled style="background-color: grey; cursor: not-allowed;" title="Membership expired. Please renew.">
+                        <i class="fa-solid fa-lock"></i> Watch Now
+                      </button>
+                    {% endif %}
+
+                  </div>
+                </div>
+            </div>
+            
+          </div>
+      
+    </section>
+
+    <!-- footer section start -->
+    <footer>
+      <div class="main">
+        <div class="footer-top">
+          <nav>
+            <div class="logo">
+              <img src="images/logo.svg" alt="" />
+            </div>
+          </nav>
+          <hr />
+          <div class="links">
+            <div class="text-links">
+              <a href="">faq</a>
+              <a href="">help center</a>
+              <a href="">terms of use</a>
+              <a href="">privacy</a>
+            </div>
+            <div class="social-links">
+              <a href="https://www.facebook.com/kamesh.pansare.9" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+              <a href="https://github.com/Kameshpansare27" target="_blank"><i class="fa-brands fa-github"></i></a>
+              <a href="www.linkedin.com/in/kamesh-pansare-728a01202" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+              <a href="https://www.instagram.com/kameshpansare27/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div class="copyright">
+            <p>&#169; 2024 <a href="">rampatade</a>. All Rights Reserved</p>
+          </div>
+          <div class="img">
+            <img src="images/footer-bottom-img.png" alt="" />
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="js/script.js"></script>
+    <script src="js/navbar.js"></script>
+
+  </body>
+</html>

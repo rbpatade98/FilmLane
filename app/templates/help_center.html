@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FilmLane - Movie Streaming Website</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!--- google font link-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Fontawesome Link for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+    />
+
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo_pic.png' %}" />
+  </head>
+  <body>
+    <!-- navbar starts -->
+    <header id="navbar">
+      <nav class="navbar">
+        <div class="logo">
+          <a href="/"><img src="{% static 'images/logo_pic.png' %}" alt="" width="60px" /><img src="{% static 'images/logo1.svg' %}" alt="" width="250px" /></a>
+        </div>
+        <ul class="nav-list">
+          <div class="logo">
+          
+            <button class="close"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <li class="home"><a href="/signin/">home</a></li>
+          <li><a href="/signin/">movie</a></li>
+          <li><a href="/signin/">Anime</a></li>
+          <!-- <li><a href="signin/">pricing</a></li> -->
+          <a href="/signin/"><button class="btn">SIGN IN</button></a>
+          
+        </ul>
+        <div class="hamburger">
+          <div class="line"></div>
+          <div class="line"></div>
+        </div>
+      </nav>
+    </header>
+
+
+<section class="same" style="padding: 50px 10%;">
+  <h2 style="font-size: 2rem; margin-bottom: 2rem; color: red;">Help Center</h2>
+
+  <h4>Account & Subscription</h4>
+  <p>- To create an account, click "Sign In" and register with your email.</p>
+  <p>- Manage your plan in <strong>Account Settings > My Subscription</strong>.</p>
+
+  <h4>Streaming Issues</h4>
+  <p>- Clear your browser cache and ensure your internet speed is above 5 Mbps.</p>
+  <p>- Switch to a modern browser like Chrome, Firefox, or Edge.</p>
+
+  <h4>App Support</h4>
+  <p>- Download the FilmLane app on Android and iOS for a smoother experience and offline viewing.</p>
+
+  <h4>Login Problems</h4>
+  <p>- Forgot password? Use the password reset link on the login page.</p>
+  <p>- If you’re locked out, contact <strong>support@filmlane.com</strong>.</p>
+
+  <h4>Contact Us</h4>
+  <p>Email: <strong>support@filmlane.com</strong><br>Phone: +1 (800) 123-4567<br>Working Hours: Mon–Sat (9 AM to 6 PM)</p>
+</section>
+   <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/navbar.js' %}"></script>
+  </body>
+</html>
