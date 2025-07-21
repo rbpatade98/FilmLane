@@ -145,8 +145,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '137496768162-ld8mclesq7sfr61eknca27ekhmclunb5.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+
 
 LOGIN_URL = '/signin/'
 LOGIN_REDIRECT_URL = '/mainpage/'
